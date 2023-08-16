@@ -11,6 +11,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+span, p, div {
+  user-select: none;
+}
+
 #root {
 
   background-color: red;

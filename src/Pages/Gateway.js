@@ -107,6 +107,11 @@ export default () => {
           )}
           {isLoggedIn && (
             <div className="w-full h-full">
+              <div className="text-white m-4 bg-gradient-to-br from-purple-500 to-blue-500 shadow-md rounded-lg p-6 transform hover:scale-105 transition-transform duration-300">
+                <h2 className="text-2xl font-semibold mb-1">📦 {title}</h2>
+                <p className="text-gray-200 mb-4">{description}</p>
+                <div className="text-2xl font-bold text-black">{amount} XRP</div>
+              </div>
               <TabNavigation onTabChange={onTabChange} />
               <div className="p-4">
                 {tabId == "1" && <div>Direct pay</div>}
