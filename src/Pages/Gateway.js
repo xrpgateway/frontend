@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Componenets/Button";
 import Lottie from "lottie-react";
-import WalletLoading from "../Animations/wallet-loading.json"
+import WalletLoading from "../Animations/wallet-loading.json";
 import { XummPkce } from "xumm-oauth2-pkce";
 import TabNavigation from "../Componenets/TabNavigation";
 
 export default () => {
-  const [isLoggedIn, setLogin] = useState(false);
+  const [isLoggedIn, setLogin] = useState(true);
   const [isLoading, setLoading] = useState(false);
-  const [tabId, onTabChange] = useState("1")
+  const [tabId, onTabChange] = useState("1");
   const query = new URLSearchParams(window.location.search);
-  const merchentId = query.get('merchentId');
-  const merchentHash = query.get('merchentHash');
-  const amount = query.get('amount');
-  const data = query.get('data')
-  const title = query.get('title')
-  const description = query.get('desc')
+
+  const merchentId = query.get("merchentId");
+  const merchentHash = query.get("merchentHash");
+  const amount = query.get("amount");
+  const data = query.get("data");
+  const title = query.get("title");
+  const description = query.get("desc");
 
   useEffect(() => {
-    console.log(`Test --> ${window.location.search} \n ${merchentId} \n ${merchentHash} \n ${amount} \n ${data} \n ${title} \n ${description}`)
-  }, [])
+    console.log(
+      `Test --> ${window.location.search} \n ${merchentId} \n ${merchentHash} \n ${amount} \n ${data} \n ${title} \n ${description}`
+    );
+  }, []);
   const signedInHandler = (authorized) => {
     // Assign to global,
     // please don't do this but for the sake of the demo it's easy
     window.sdk = authorized.sdk;
     window.wallet_address = authorized.me.account;
-    setLoading(false)
-    setLogin(true)
+    setLoading(false);
+    setLogin(true);
   };
 
   const onConnect = async () => {
@@ -43,7 +46,7 @@ export default () => {
       auth.state().then((state) => {
         if (state.me) {
           console.log("success, me", JSON.stringify(state.me));
-         
+
           signedInHandler(state);
         }
       });
@@ -67,7 +70,6 @@ export default () => {
     await auth.authorize();
   };
 
-
   return (
     <div className="flex">
       <div
@@ -85,16 +87,32 @@ export default () => {
         <div className="m-3 mt-2 mb-4 rounded-lg flex-1 bg-gradient-to-br from-gray-50 to-white  shadow-md">
           {!isLoggedIn && (
             <div className="w-full h-full flex justify-center items-center">
-              {isLoading && <Lottie style={{ height: 128, width: 128 }} animationData={WalletLoading} loop={true} />}
-              {!isLoading && <Button onClick={()=>{ setLoading(true); onConnect(); } }  text={"Connect With Xumm!"} />}
+              {isLoading && (
+                <Lottie
+                  style={{ height: 128, width: 128 }}
+                  animationData={WalletLoading}
+                  loop={true}
+                />
+              )}
+              {!isLoading && (
+                <Button
+                  onClick={() => {
+                    setLoading(true);
+                    onConnect();
+                  }}
+                  text={"Connect With Xumm!"}
+                />
+              )}
             </div>
           )}
           {isLoggedIn && (
-            <div className="w-full">
-                <TabNavigation onTabChange={onTabChange}/>
-                {
-                    tabId == "1" && <div>Hello wordl!</div>
-                }
+            <div className="w-full h-full">
+              <TabNavigation onTabChange={onTabChange} />
+              <div className="p-4">
+                {tabId == "1" && <div>Hello wordl!</div>}
+                {tabId == "2" && <div>Hello wordl!</div>}
+                {tabId == "0" && <div>Hello wordl!</div>}
+              </div>
             </div>
           )}
         </div>
