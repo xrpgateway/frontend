@@ -3,21 +3,24 @@ import Button from "../Componenets/Button";
 import Lottie from "lottie-react";
 import WalletLoading from "../Animations/wallet-loading.json"
 import { XummPkce } from "xumm-oauth2-pkce";
+import TabNavigation from "../Componenets/TabNavigation";
 
 export default () => {
   const [isLoggedIn, setLogin] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [tabId, onTabChange] = useState("1")
 
   const signedInHandler = (authorized) => {
     // Assign to global,
     // please don't do this but for the sake of the demo it's easy
-    //window.sdk = authorized.sdk;
+    window.sdk = authorized.sdk;
+    window.wallet_address = authorized.me.account;
     setLoading(false)
     setLogin(true)
   };
 
   const onConnect = async () => {
-    var auth = new XummPkce("4dd5496e-2d69-4741-b242-f8607d415e72", {
+    var auth = new XummPkce("ffc1a4da-8ec2-40a7-a48d-fb23fb83cc43", {
       implicit: true,
     });
 
@@ -30,7 +33,7 @@ export default () => {
       auth.state().then((state) => {
         if (state.me) {
           console.log("success, me", JSON.stringify(state.me));
-          //window.wallet_address = state.me.account
+         
           signedInHandler(state);
         }
       });
@@ -46,7 +49,6 @@ export default () => {
         console.log(state);
         if (state) {
           console.log("retrieved, me:", JSON.stringify(state.me));
-          //window.wallet_address = state.me.account
           signedInHandler(state);
         }
       });
@@ -75,6 +77,14 @@ export default () => {
             <div className="w-full h-full flex justify-center items-center">
               {isLoading && <Lottie style={{ height: 128, width: 128 }} animationData={WalletLoading} loop={true} />}
               {!isLoading && <Button onClick={()=>{ setLoading(true); onConnect(); } }  text={"Connect With Xumm!"} />}
+            </div>
+          )}
+          {isLoggedIn && (
+            <div className="w-full">
+                <TabNavigation onTabChange={onTabChange}/>
+                {
+                    tabId == "1" && <div>Hello wordl!</div>
+                }
             </div>
           )}
         </div>
