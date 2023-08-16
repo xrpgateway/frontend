@@ -109,9 +109,9 @@ export default () => {
             <div className="w-full h-full">
               <TabNavigation onTabChange={onTabChange} />
               <div className="p-4">
-                {tabId == "1" && <div>Hello wordl!</div>}
-                {tabId == "2" && <div>Hello wordl!</div>}
-                {tabId == "0" && <div>Hello wordl!</div>}
+                {tabId == "1" && <div>Direct pay</div>}
+                {tabId == "2" && <div>Split pay!</div>}
+                {tabId == "0" && <div>Subscriptions!</div>}
               </div>
             </div>
           )}
