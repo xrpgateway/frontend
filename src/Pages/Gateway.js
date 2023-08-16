@@ -4,6 +4,8 @@ import Lottie from "lottie-react";
 import WalletLoading from "../Animations/wallet-loading.json";
 import { XummPkce } from "xumm-oauth2-pkce";
 import TabNavigation from "../Componenets/TabNavigation";
+import { dropsToXrp } from "xrpl";
+import DirectPay from "../Componenets/DirectPay";
 
 export default () => {
   const [isLoggedIn, setLogin] = useState(true);
@@ -106,15 +108,15 @@ export default () => {
             </div>
           )}
           {isLoggedIn && (
-            <div className="w-full h-full">
+            <div className="flex flex-col w-full h-full">
               <div className="text-white m-4 bg-gradient-to-br from-purple-500 to-blue-500 shadow-md rounded-lg p-6 transform hover:scale-105 transition-transform duration-300">
                 <h2 className="text-2xl font-semibold mb-1">📦 {title}</h2>
                 <p className="text-gray-200 mb-4">{description}</p>
-                <div className="text-2xl font-bold text-black">{amount} XRP</div>
+                <div className="text-2xl font-bold text-black">{dropsToXrp(amount)} XRP</div>
               </div>
               <TabNavigation onTabChange={onTabChange} />
-              <div className="p-4">
-                {tabId == "1" && <div>Direct pay</div>}
+              <div className="p-4 flex-1">
+                {tabId == "1" && <DirectPay />}
                 {tabId == "2" && <div>Split pay!</div>}
                 {tabId == "0" && <div>Subscriptions!</div>}
               </div>
