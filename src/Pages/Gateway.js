@@ -19,8 +19,8 @@ export default () => {
         </div>
         <div className="m-3 mt-2 mb-4 rounded-lg flex-1 bg-gradient-to-br from-gray-50 to-white  shadow-md">
           {!isLoggedIn && (
-            <div>
-              <Button text={"Connect With Xumm!"} />
+            <div className="w-full h-full flex justify-center items-center">
+              <Button onClick={()=>{ setLogin(true)}}  text={"Connect With Xumm!"} />
             </div>
           )}
         </div>
