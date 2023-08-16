@@ -8,12 +8,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Gateway from './Pages/Gateway';
+import Test from './Pages/Test';
 
 const router = createBrowserRouter([
   {
     path: "/payment",
     element: <Gateway />,
   },
+  {
+    path: '/',
+    element: <Test />
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
