@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import Button from "../Componenets/Button";
+import Lottie from "lottie-react";
+import WalletLoading from "../Animations/wallet-loading.json"
 
 export default () => {
   const [isLoggedIn, setLogin] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
   return (
     <div className="flex">
       <div
@@ -20,7 +24,8 @@ export default () => {
         <div className="m-3 mt-2 mb-4 rounded-lg flex-1 bg-gradient-to-br from-gray-50 to-white  shadow-md">
           {!isLoggedIn && (
             <div className="w-full h-full flex justify-center items-center">
-              <Button onClick={()=>{ setLogin(true)}}  text={"Connect With Xumm!"} />
+              {isLoading && <Lottie style={{ height: 128, width: 128 }} animationData={WalletLoading} loop={true} />}
+              {!isLoading && <Button onClick={()=>{ setLoading(true) } }  text={"Connect With Xumm!"} />}
             </div>
           )}
         </div>
