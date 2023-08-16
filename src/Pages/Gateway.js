@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Componenets/Button";
 import Lottie from "lottie-react";
 import WalletLoading from "../Animations/wallet-loading.json"
@@ -9,7 +9,17 @@ export default () => {
   const [isLoggedIn, setLogin] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [tabId, onTabChange] = useState("1")
+  const query = new URLSearchParams(window.location.search);
+  const merchentId = query.get('merchentId');
+  const merchentHash = query.get('merchentHash');
+  const amount = query.get('amount');
+  const data = query.get('data')
+  const title = query.get('title')
+  const description = query.get('desc')
 
+  useEffect(() => {
+    console.log(`Test --> ${window.location.search} \n ${merchentId} \n ${merchentHash} \n ${amount} \n ${data} \n ${title} \n ${description}`)
+  }, [])
   const signedInHandler = (authorized) => {
     // Assign to global,
     // please don't do this but for the sake of the demo it's easy
