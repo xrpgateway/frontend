@@ -32,7 +32,7 @@ export default () => {
   return (
     <div className="h-full flex flex-col items-center justify-center">
       <div className="flex items-center flex-1" style={{ zIndex: 10 }}>
-        <div className=" text-lg font-semibold mr-2">Pay with:</div>
+        <div className=" text-lg font-semibold mr-2">Pay with</div>
         <div className="relative inline-block">
           <div
             className={`flex cursor-pointer bg-white border border-gray-300 px-4 py-2 rounded-full transition-transform ${
@@ -97,7 +97,7 @@ export default () => {
         loop={true}
       />}
       <div className="flex-1 flex items-end">
-      <Button text={`Pay with ${selectedOption.text}`} />
+      <Button text={`Send Payment`} />
       </div>
     </div>
   );
