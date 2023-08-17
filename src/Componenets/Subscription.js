@@ -211,21 +211,20 @@ const SubscriptionComponent = ({ amount,data,nonce,merchentId,merchentHash }) =>
             <div className="step" style={{ display: currentStep === 0 ? 'block' : 'none' }}>
 
                 <Lottie
-                    style={{ height: 100, width: 100, alignSelf: "center", marginLeft: "6rem" }}
+                    style={{ height: 80, width: 100, alignSelf: "center", marginLeft: "6rem" }}
                     animationData={animationData}
                     loop={true}
                 />
                 <div className="step-header">Step 1</div>
-                <div className="step-content">
+                <div className="step-content flex flex-col justify-center items-center">
                     <label htmlFor="paymentCount">Number of Payments:</label>
                     <input
                         type="number"
                         id="paymentCount"
+                        className="m-1 rounded-full border px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
+                        style={{ width: '60%'}}
                         value={paymentCount}
-                        style={{
-                            border: '1px solid #ccc', // You can customize the border properties
-                            padding: '5px', // Optional: Add padding for better visual appearance
-                        }}
+                        min={1}
                         onChange={(e) => setPaymentCount(e.target.value)}
                     />
                     <div className='SignButton'>
