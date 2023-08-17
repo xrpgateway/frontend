@@ -6,7 +6,7 @@ import { XummPkce } from "xumm-oauth2-pkce";
 import TabNavigation from "../Componenets/TabNavigation";
 import { dropsToXrp } from "xrpl";
 import DirectPay from "../Componenets/DirectPay";
-
+import SubscriptionComponent from "../Componenets/Subscription";
 export default () => {
   const [isLoggedIn, setLogin] = useState(true);
   const [isLoading, setLoading] = useState(false);
@@ -118,7 +118,7 @@ export default () => {
               <div className="p-4 flex-1">
                 {tabId == "1" && <DirectPay />}
                 {tabId == "2" && <div>Split pay!</div>}
-                {tabId == "0" && <div>Subscriptions!</div>}
+                {tabId == "0" && <SubscriptionComponent></SubscriptionComponent>}
               </div>
             </div>
           )}
