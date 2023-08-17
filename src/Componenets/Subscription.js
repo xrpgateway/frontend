@@ -8,7 +8,7 @@ import done from '../Animations/done.json'
 import sign from '../Animations/signature.json'
 
 import { XummPkce } from 'xumm-oauth2-pkce';
-const SubscriptionComponent = ({ amount }) => {
+const SubscriptionComponent = ({ amount,data,nonce,merchentId,merchentHash }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [paymentCount, setPaymentCount] = useState('');
     const [signature, setSignature] = useState('');
@@ -34,6 +34,7 @@ const SubscriptionComponent = ({ amount }) => {
 
     async function signedInHandler(authorized) {
         window.sdk = authorized.sdk;
+        window.account = authorized.me.account
     }
     async function go(e) {
         let ans = await auth.authorize();
@@ -93,6 +94,7 @@ const SubscriptionComponent = ({ amount }) => {
         else {
             console.log(transactionhash)
             setCurrentStep(2);
+            
         }
 
 

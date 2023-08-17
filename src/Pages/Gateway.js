@@ -18,6 +18,7 @@ export default () => {
   const merchentHash = query.get("merchentHash");
   const amount = query.get("amount");
   const data = query.get("data");
+  const nonce = query.get("nonce")
   const title = query.get("title");
   const description = query.get("desc");
 
@@ -117,9 +118,9 @@ export default () => {
               </div>
               <TabNavigation onTabChange={onTabChange} />
               <div className="p-4 flex-1">
-                {tabId == "1" && <DirectPay amount={amount} />}
-                {tabId == "2" && <SplitPay amount={amount} />}
-                {tabId == "0" && <SubscriptionComponent amount={amount}></SubscriptionComponent>}
+                {tabId == "1" && <DirectPay amount={amount} data={data} nonce={nonce} merchentId={merchentId} merchentHash={merchentHash} />}
+                {tabId == "2" && <SplitPay amount={amount} data={data} nonce={nonce} merchentId={merchentId} merchentHash={merchentHash} />}
+                {tabId == "0" && <SubscriptionComponent amount={amount} data={data} nonce={nonce} merchentId={merchentId} merchentHash={merchentHash}></SubscriptionComponent>}
               </div>
             </div>
           )}
