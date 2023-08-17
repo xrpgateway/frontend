@@ -5,10 +5,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Gateway from './Pages/Gateway';
 import Test from './Pages/Test';
+import SplitExternal from './Pages/SplitExternal';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Test />
+  },
+  {
+    path: '/split_external',
+    element: <SplitExternal />
   }
 ]);
 

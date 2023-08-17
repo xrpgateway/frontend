@@ -137,14 +137,24 @@ export default ({ amount, data, nonce, merchentId, merchentHash }) => {
         resolved.then(async function (payloadOutcome) {
           const txHash = payloadOutcome.txid;
           console.log(txHash)
-          /*fetch(`${process.env.REACT_APP_API}/transaction/submitted`, {
+          let dat = {
+            merchantId:merchentId,
+            amount:amount,
+            nonce:nonce,
+            signedHash:merchentHash,
+            data:data,
+            transactionHashes:[txHash],
+            transactiontype:1,
+            users:[],
+            extradata:""
+
+        }
+          fetch(`${process.env.REACT_APP_API}/transaction/submitted`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-
-            }),
+            body: JSON.stringify(dat),
           })
             .then((res) => res.json())
             .then((e) => {
@@ -163,7 +173,7 @@ export default ({ amount, data, nonce, merchentId, merchentHash }) => {
                 });
                 setStep(1);
               }
-            });*/
+            });
         });
       })
       .catch(function (payloadError) {

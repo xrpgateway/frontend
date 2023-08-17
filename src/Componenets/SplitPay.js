@@ -8,7 +8,7 @@ import Lottie from "lottie-react";
 import signature_animation from "../Animations/signature.json";
 import submit_other from "../Animations/submit_other.json";
 
-export default ({ amount }) => {
+export default ({ amount, data, nonce, merchentId, merchentHash }) => {
   const [emails, setEmails] = useState([""]);
   const [step, setStep] = useState(1);
 
@@ -97,14 +97,33 @@ export default ({ amount }) => {
 
         resolved.then(async function (payloadOutcome) {
           const txHash = payloadOutcome.txid;
+          const users = []
+          for(let email of emails){
+            users.push({
+                email,
+                txHash: "",
+                secret: "",
+            })
+          }
+          users[0].txHash = txHash
+          users[0].secret = fulfillment_hex
+          let dat = {
+            merchantId: merchentId,
+            amount: amount,
+            nonce: nonce,
+            signedHash: merchentHash,
+            data: data,
+            transactionHashes: [txHash],
+            transactiontype: 2,
+            users,
+            extradata: "",
+          };
           fetch(`${process.env.REACT_APP_API}/transaction/submitted`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-
-            }),
+            body: JSON.stringify(dat),
           })
             .then((res) => res.json())
             .then((e) => {

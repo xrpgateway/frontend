@@ -18,51 +18,31 @@ export default () => {
       nonce: "sdfdsf",
       data: "jlkdfjlksdfjlk",
     };
-    let response = await fetch("http://localhost:4001/transaction/signtest", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data2),
-    });
+    let response = await fetch(
+      `${process.env.REACT_APP_API}/transaction/signtest`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data2),
+      }
+    );
     let ans = await response.json();
-
+    let data3 = data2;
+    data3.sign = ans.signedhash;
+    let response2 = await fetch(
+      `${process.env.REACT_APP_API}/transaction/verificationtest`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data3),
+      }
+    );
+    console.log(response2);
     const base64Data = btoa(JSON.stringify(data));
-    const convertRemToPixels = (rem) => {    
-        return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
-    }
-    const openPaymentWindow =async () => {
-        const data = {
-            item: '123',
-            cid: '1233'
-        };
-        const data2 = {
-            merchentId:"b1145317-a44b-4aac-9779-7437c569620d",
-            amount:"12000000",
-            nonce:"sdfdsf",
-            data:"jlkdfjlksdfjlk"
-
-
-        }
-        let response = await fetch("http://localhost:4001/transaction/signtest", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data2),
-        });
-        let ans = await response.json()
-        let data3 = data2
-        data3.sign = ans.signedhash
-        let response2 = await fetch("http://localhost:4001/transaction/verificationtest", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data3),
-        });
-        console.log(response2)
-        const base64Data = btoa(JSON.stringify(data));
 
     const queryParams = new URLSearchParams({
       merchentId: data2.merchentId,
@@ -87,32 +67,32 @@ export default () => {
     window.sdk = authorized.sdk;
     window.wallet_address = authorized.me.account;
     const payload = {
-        txjson: {
-            "TransactionType": "TrustSet",
-            "Account": authorized.me.account,
-            "LimitAmount": {
-              "currency": "USD",
-              "issuer": "rg2MAgwqwmV9TgMexVBpRDK89vMyJkpbC",
-              "value": "100"
-            }
+      txjson: {
+        TransactionType: "TrustSet",
+        Account: authorized.me.account,
+        LimitAmount: {
+          currency: "USD",
+          issuer: "rg2MAgwqwmV9TgMexVBpRDK89vMyJkpbC",
+          value: "1000000",
+        },
+      },
+    };
+    window.sdk.payload
+      .createAndSubscribe(payload, async function (payloadEvent) {
+        if (typeof payloadEvent.data.signed !== "undefined") {
+          // What we return here will be the resolved value of the `resolved` property
+          return payloadEvent.data;
         }
-    }
-    window.sdk.payload.createAndSubscribe(payload, async function (payloadEvent) {
-      if (typeof payloadEvent.data.signed !== "undefined") {
-        // What we return here will be the resolved value of the `resolved` property
-        return payloadEvent.data;
-      }
-    })
-    .then(async function ({ created, resolved }) {
-      resolved.then(async function (payloadOutcome) {
-        const txHash = payloadOutcome.txid;
-        console.log(txHash)
+      })
+      .then(async function ({ created, resolved }) {
+        resolved.then(async function (payloadOutcome) {
+          const txHash = payloadOutcome.txid;
+          console.log(txHash);
+        });
+      })
+      .catch(function (payloadError) {
+        console.error(payloadError);
       });
-    })
-    .catch(function (payloadError) {
-      console.error(payloadError);
-    });
-
   };
 
   const onConnect = async () => {
@@ -162,7 +142,9 @@ export default () => {
       </button>
       <button
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={async () => { onConnect() }}
+        onClick={async () => {
+          onConnect();
+        }}
       >
         CreateTrustline
       </button>
