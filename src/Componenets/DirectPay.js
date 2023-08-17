@@ -35,18 +35,20 @@ export default () => {
         <div className=" text-lg font-semibold mr-2">Pay with</div>
         <div className="relative inline-block">
           <div
-            className={`flex cursor-pointer bg-white border border-gray-300 px-4 py-2 rounded-full transition-transform ${
+            className={`flex items-center cursor-pointer bg-white border border-gray-300 px-4 py-2 rounded-full transition-transform ${
               dropdownOpen ? "scale-105" : ""
             }`}
             onClick={() => setDropdownOpen(!dropdownOpen)}
           >
             {selectedOption.icon == "png" ? (
+              <div className="h-full flex justify-center items-center">
               <img
                 className="mr-2"
-                height={"14px"}
+                height={"18px"}
                 width={"18px"}
                 src={selectedOption.url}
               />
+              </div>
             ) : (
               <span className="mr-2">{selectedOption.icon}</span>
             )}

@@ -1,0 +1,27 @@
+.text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .gradient-text {
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .gradient-char {
+    display: inline-block;
+    transform: translateY(100%);
+    animation: slideUp 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+  }
+  
+  @keyframes slideUp {
+    to {
+      transform: translateY(0);
+    }
+  }
+  

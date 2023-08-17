@@ -14,8 +14,3 @@ body {
 span, p, div {
   user-select: none;
 }
-
-#root {
-
-  background-color: red;
-}

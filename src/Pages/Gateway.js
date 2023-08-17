@@ -6,6 +6,7 @@ import { XummPkce } from "xumm-oauth2-pkce";
 import TabNavigation from "../Componenets/TabNavigation";
 import { dropsToXrp } from "xrpl";
 import DirectPay from "../Componenets/DirectPay";
+import TextAnimation from "../Componenets/TextAnimation";
 
 export default () => {
   const [isLoggedIn, setLogin] = useState(true);
@@ -73,7 +74,7 @@ export default () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex bg-slate-100">
       <div
         className="h-full bg-slate-100 flex flex-col"
         style={{ width: "28rem", height: "42rem" }}
@@ -88,7 +89,7 @@ export default () => {
         </div>
         <div className="m-3 mt-2 mb-4 rounded-lg flex-1 bg-gradient-to-br from-gray-50 to-white  shadow-md">
           {!isLoggedIn && (
-            <div className="w-full h-full flex justify-center items-center">
+            <div className="flex flex-col w-full h-full flex justify-center items-center">
               {isLoading && (
                 <Lottie
                   style={{ height: 128, width: 128 }}
