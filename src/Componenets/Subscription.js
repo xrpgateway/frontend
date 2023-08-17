@@ -221,7 +221,7 @@ const SubscriptionComponent = ({ amount,data,nonce,merchentId,merchentHash }) =>
                     <input
                         type="number"
                         id="paymentCount"
-                        className="m-1 rounded-full border px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
+                        className="m-1 text-center rounded-full border px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300"
                         style={{ width: '60%'}}
                         value={paymentCount}
                         min={1}
