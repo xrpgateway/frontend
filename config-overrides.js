@@ -1,5 +1,3 @@
-
-
 const webpack = require("webpack");
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 module.exports = function override(config, env) {
@@ -11,20 +9,11 @@ module.exports = function override(config, env) {
     net: false,
     http: require.resolve("stream-http"),
     stream: require.resolve("stream-browserify"),
-    buffer: require.resolve("buffer"),
-    https: false,
     https: require.resolve('https-browserify'),
     crypto: require.resolve("crypto-browserify"),
     url: require.resolve("url/"),
     'process/browser': require.resolve('process/browser'),
   };
-  config.plugins = [
-    ...config.plugins,
-    new webpack.ProvidePlugin({
-      process: "process/browser",
-      Buffer: ["buffer", "Buffer"],
-    }),
-  ]
   config.plugins = [
     ...config.plugins,
     new webpack.ProvidePlugin({
