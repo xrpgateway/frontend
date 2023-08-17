@@ -5,8 +5,10 @@ import "./DirectPay.css";
 import Button from "./Button";
 import signature_animation from "../Animations/signature.json";
 import animationData from "../Animations/done.json";
+import { Client } from "xrpl";
+import { ToastContainer, toast } from "react-toastify";
 
-export default ({ amount }) => {
+export default ({ amount, data, nonce, merchentId, merchentHash }) => {
   const paymentOptions = [
     { icon: "png", url: "/xrp.png", text: "XRP" },
     { icon: "png", url: "/bitcoin.png", text: "BTC" },
@@ -45,6 +47,129 @@ export default ({ amount }) => {
       .catch((e) => console.error(e))
       .finally(() => setConverting(false));
   }, [selectedOption]);
+
+  const onSendPayment = async () => {
+    setStep(2);
+    let payload = {};
+    if (selectedOption.text != "XRP") {
+      const client = new Client(process.env.REACT_APP_XRPWH);
+      await client.connect();
+      const response = await client.request({
+        id: 2,
+        command: "account_lines",
+        account: window.wallet_address,
+        ledger_index: "validated",
+      });
+      await client.disconnect();
+      const lines = response.result.lines;
+      let provider = null;
+      for (const line of lines) {
+        if (
+          line.currency == selectedOption.text &&
+          parseFloat(amount_) <= parseFloat(line.balance)
+        ) {
+          provider = line.account;
+          break;
+        }
+      }
+      if (!provider) {
+        setStep(1);
+        toast.error(
+          "Selected currency with required balance not found in your wallet!",
+          {
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
+        );
+        return;
+      }
+      payload = {
+        txjson: {
+          TransactionType: "Payment",
+          Amount: {
+            "currency" :  selectedOption.text,
+            "value" : amount_.toString(),
+            "issuer" : provider
+          },
+          Account: window.wallet_address,
+          Destination: process.env.REACT_APP_AW
+        },
+      };
+    } else {
+      payload = {
+        txjson: {
+          TransactionType: "Payment",
+          Amount: amount,
+          Account: window.wallet_address,
+          Destination: process.env.REACT_APP_AW
+        },
+      };
+    }
+    console.log(payload)
+    window.sdk.payload
+      .createAndSubscribe(payload, async function (payloadEvent) {
+        if (typeof payloadEvent.data.signed !== "undefined") {
+          // What we return here will be the resolved value of the `resolved` property
+          return payloadEvent.data;
+        }
+      })
+      .then(async function ({ created, resolved }) {
+        toast.success(
+          "Check xumm wallet we have sent you sign request to send money!",
+          {
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
+        );
+
+        resolved.then(async function (payloadOutcome) {
+          const txHash = payloadOutcome.txid;
+          console.log(txHash)
+          /*fetch(`${process.env.REACT_APP_API}/transaction/submitted`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+
+            }),
+          })
+            .then((res) => res.json())
+            .then((e) => {
+              if (e.success) {
+                setStep(3);
+              } else {
+                toast.error("Transaction Failed!", {
+                  position: "bottom-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
+                setStep(1);
+              }
+            });*/
+        });
+      })
+      .catch(function (payloadError) {
+        console.error(payloadError);
+      });
+  };
 
   return (
     <div className="h-full flex flex-col items-center justify-center">
@@ -125,7 +250,7 @@ export default ({ amount }) => {
       )}
       {step == 1 && (
         <div className="flex-1 flex items-end">
-          <Button text={`Send Payment`} />
+          <Button onClick={onSendPayment} text={`Send Payment`} />
         </div>
       )}
       {step == 2 && (
@@ -155,11 +280,10 @@ export default ({ amount }) => {
             animationData={animationData}
             loop={true}
           />
-          <div className=" font-semibold mt-3">
-            Transaction Successful 🥳
-          </div>
+          <div className=" font-semibold mt-3">Transaction Successful 🥳</div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };
