@@ -14,6 +14,13 @@
     align-items: center;
 }
 
+.step {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+
+}
+
 .step-2 {
     display: none;
 }
@@ -53,6 +60,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
+    justify-content: center;
   
 }
 
