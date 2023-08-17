@@ -4,7 +4,7 @@ import Convert from "../Animations/convert.json";
 import "./DirectPay.css"
 import Button from "./Button";
 
-export default () => {
+export default ({ amount }) => {
   const paymentOptions = [
     { icon: "png", url: "/xrp.png", text: "XRP" },
     { icon: "png", url: "/bitcoin.png", text: "BTC" },
@@ -19,6 +19,8 @@ export default () => {
   const [selectedOption, setSelectedOption] = useState(paymentOptions[0]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isConverting, setConverting] = useState(false)
+  const [cRate, setRate] = useState(1)
+  const [amount_, setAmount] = useState(0)
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -27,6 +29,12 @@ export default () => {
 
   useEffect(() => {
     setConverting(true)
+    fetch(`${process.env.REACT_APP_API}/transaction/rate/${selectedOption.text}/${amount}`).then((res) => res.json()).then((res) => {
+      const rate = res.rate
+      const val = res.val
+      setRate(rate)
+      setAmount(val)
+    }).catch(e=> console.error(e)).finally(() => setConverting(false))
   }, [selectedOption])
 
   return (
@@ -88,10 +96,10 @@ export default () => {
         </div>
       </div>
       {!isConverting && (<div className="flex items-center mt-5 font-medium">
-        1 XRP ~ 1 {selectedOption.text}
+        1 XRP ~ {cRate} {selectedOption.text}
       </div>)}
       {!isConverting && (<div className="flex items-center mt-1 font-semibold">
-        You will pay ~= 0 {selectedOption.text}
+        You will pay ~= {amount_} {selectedOption.text}
       </div>)}
       {isConverting && <Lottie
         style={{ height: 128, width: 128, zIndex: 1 }}

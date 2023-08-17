@@ -117,7 +117,7 @@ export default () => {
               </div>
               <TabNavigation onTabChange={onTabChange} />
               <div className="p-4 flex-1">
-                {tabId == "1" && <DirectPay />}
+                {tabId == "1" && <DirectPay amount={amount} />}
                 {tabId == "2" && <div>Split pay!</div>}
                 {tabId == "0" && <div>Subscriptions!</div>}
               </div>
