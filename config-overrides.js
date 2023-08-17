@@ -1,4 +1,5 @@
 const webpack = require("webpack");
+const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 module.exports = function override(config, env) {
   //do stuff with the webpack config...
   let loaders = config.resolve;
@@ -22,5 +23,6 @@ module.exports = function override(config, env) {
       Buffer: ["buffer", "Buffer"],
     }),
   ];
+  config.resolve.plugins = config.resolve.plugins.filter(plugin => !(plugin instanceof ModuleScopePlugin));
   return config;
 };

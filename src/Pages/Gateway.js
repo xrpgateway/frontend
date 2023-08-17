@@ -7,8 +7,9 @@ import TabNavigation from "../Componenets/TabNavigation";
 import { dropsToXrp } from "xrpl";
 import DirectPay from "../Componenets/DirectPay";
 import SubscriptionComponent from "../Componenets/Subscription";
+import SplitPay from "../Componenets/SplitPay";
 export default () => {
-  const [isLoggedIn, setLogin] = useState(true);
+  const [isLoggedIn, setLogin] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [tabId, onTabChange] = useState("1");
   const query = new URLSearchParams(window.location.search);
@@ -73,7 +74,7 @@ export default () => {
   };
 
   return (
-    <div className="flex bg-slate-100">
+    <div className="flex bg-slate-100 overflow-hidden">
       <div
         className="h-full bg-slate-100 flex flex-col"
         style={{ width: "28rem", height: "42rem" }}
@@ -117,7 +118,7 @@ export default () => {
               <TabNavigation onTabChange={onTabChange} />
               <div className="p-4 flex-1">
                 {tabId == "1" && <DirectPay amount={amount} />}
-                {tabId == "2" && <div>Split pay!</div>}
+                {tabId == "2" && <SplitPay amount={amount} />}
                 {tabId == "0" && <SubscriptionComponent></SubscriptionComponent>}
               </div>
             </div>
