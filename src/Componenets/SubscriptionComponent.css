@@ -64,6 +64,10 @@
   
 }
 
+.SignButton {
+    margin-top: 20px;
+}
+
 .next-button,
 .submit-button {
     background-color: blue;

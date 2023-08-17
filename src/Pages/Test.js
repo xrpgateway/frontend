@@ -15,7 +15,7 @@ export default () => {
         const queryParams = new URLSearchParams({
             merchentId: '1234',
             merchentHash: 'xyzyzx',
-            amount: '10000000000',
+            amount: '10000000',
             data: base64Data,
             title: 'XRPL conference',
             desc: 'Ticket for xrpl yearly dev event'

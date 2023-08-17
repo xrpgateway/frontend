@@ -118,8 +118,8 @@ export default () => {
               <TabNavigation onTabChange={onTabChange} />
               <div className="p-4 flex-1">
                 {tabId == "1" && <DirectPay amount={amount} />}
-                {tabId == "2" && <SplitPay amount={amount} />}
-                {tabId == "0" && <SubscriptionComponent></SubscriptionComponent>}
+                {tabId == "2" && <div>Split pay!</div>}
+                {tabId == "0" && <SubscriptionComponent amount={amount}></SubscriptionComponent>}
               </div>
             </div>
           )}
