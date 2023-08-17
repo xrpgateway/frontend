@@ -34,6 +34,7 @@ const SubscriptionComponent = ({ amount,data,nonce,merchentId,merchentHash }) =>
 
     async function signedInHandler(authorized) {
         window.sdk = authorized.sdk;
+        window.me = authorized.me
         window.account = authorized.me.account
     }
     async function go(e) {
@@ -94,7 +95,7 @@ const SubscriptionComponent = ({ amount,data,nonce,merchentId,merchentHash }) =>
         else {
             console.log(transactionhash)
             setCurrentStep(2);
-            
+
         }
 
 
@@ -143,7 +144,28 @@ const SubscriptionComponent = ({ amount,data,nonce,merchentId,merchentHash }) =>
 
     }
 
-    const handleSubmit = () => {
+    const handleSubmit =async () => {
+        let dat = {
+            merchantId:merchentId,
+            amount:amount,
+            nonce:nonce,
+            signedHash:merchentHash,
+            data:data,
+            transactionHashes:transactionhash,
+            transactiontype:0,
+            users:[window.account],
+            extradata:""
+
+        }
+        let response = await fetch("http://localhost:4001/transaction/submitted", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dat),
+        });
+        console.log(response)
+
         // Perform submission logic here
         setCurrentStep("finished")
     };

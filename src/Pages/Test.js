@@ -28,6 +28,41 @@ export default () => {
     let ans = await response.json();
 
     const base64Data = btoa(JSON.stringify(data));
+    const convertRemToPixels = (rem) => {    
+        return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    }
+    const openPaymentWindow =async () => {
+        const data = {
+            item: '123',
+            cid: '1233'
+        };
+        const data2 = {
+            merchentId:"b1145317-a44b-4aac-9779-7437c569620d",
+            amount:"12000000",
+            nonce:"sdfdsf",
+            data:"jlkdfjlksdfjlk"
+
+
+        }
+        let response = await fetch("http://localhost:4001/transaction/signtest", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data2),
+        });
+        let ans = await response.json()
+        let data3 = data2
+        data3.sign = ans.signedhash
+        let response2 = await fetch("http://localhost:4001/transaction/verificationtest", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data3),
+        });
+        console.log(response2)
+        const base64Data = btoa(JSON.stringify(data));
 
     const queryParams = new URLSearchParams({
       merchentId: data2.merchentId,
