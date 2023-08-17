@@ -35,7 +35,7 @@ const SubscriptionComponent = () => {
     return (
         <div className="subscription-component">
             <Lottie
-                style={{ height: 100, width: 100,alignSelf:"center" }}
+                style={{ height: 100, width: 100, alignSelf: "center" }}
                 animationData={animationData}
                 loop={true}
             />
@@ -48,6 +48,10 @@ const SubscriptionComponent = () => {
                         type="number"
                         id="paymentCount"
                         value={paymentCount}
+                        style={{
+                            border: '1px solid #ccc', // You can customize the border properties
+                            padding: '5px', // Optional: Add padding for better visual appearance
+                        }}
                         onChange={(e) => setPaymentCount(e.target.value)}
                     />
                     <button className="next-button" onClick={handleNext}>
@@ -59,14 +63,9 @@ const SubscriptionComponent = () => {
                 <div className="step-header">Step 2</div>
                 <div className="step-content">
                     <label htmlFor="signature">Sign the Check:</label>
-                    <input
-                        type="text"
-                        id="signature"
-                        value={signature}
-                        onChange={(e) => setSignature(e.target.value)}
-                    />
+                    
                     <button className="next-button" onClick={handleNext}>
-                        Next
+                        Sign
                     </button>
                 </div>
             </div>
